@@ -194,7 +194,7 @@ app.get('/posts', function (req, res) { return __awaiter(void 0, void 0, void 0,
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, prisma.post.findMany({ include: { author: true } })];
+                return [4 /*yield*/, prisma.post.findMany({ include: { author: true, categories: true } })];
             case 1:
                 posts = _a.sent();
                 res.json(posts);
@@ -216,7 +216,7 @@ app.get('/posts/:id', function (req, res) { return __awaiter(void 0, void 0, voi
                 id = req.params.id;
                 return [4 /*yield*/, prisma.post.findUnique({
                         where: { id: Number(id) },
-                        include: { author: true },
+                        include: { author: true, categories: true },
                     })];
             case 1:
                 post = _a.sent();
@@ -320,6 +320,114 @@ app.get('/categories', function (req, res) { return __awaiter(void 0, void 0, vo
             case 2:
                 error_12 = _a.sent();
                 res.status(500).json({ error: "An error occurred while fetching categories." });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+app.get('/categories/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, category, error_13;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                return [4 /*yield*/, prisma.category.findUnique({ where: { id: Number(id) } })];
+            case 1:
+                category = _a.sent();
+                if (!category)
+                    return [2 /*return*/, res.status(404).json({ error: 'Category not found.' })];
+                res.json(category);
+                return [3 /*break*/, 3];
+            case 2:
+                error_13 = _a.sent();
+                res.status(500).json({ error: "An error occurred while fetching the category." });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+app.put('/categories/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, name_4, updatedCategory, error_14;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                name_4 = req.body.name;
+                return [4 /*yield*/, prisma.category.update({
+                        where: { id: Number(id) },
+                        data: { name: name_4 },
+                    })];
+            case 1:
+                updatedCategory = _a.sent();
+                res.json(updatedCategory);
+                return [3 /*break*/, 3];
+            case 2:
+                error_14 = _a.sent();
+                if (error_14.code === 'P2025')
+                    return [2 /*return*/, res.status(404).json({ error: 'Category not found.' })];
+                res.status(500).json({ error: "An error occurred while updating the category." });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+app.delete('/categories/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, error_15;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                return [4 /*yield*/, prisma.category.delete({ where: { id: Number(id) } })];
+            case 1:
+                _a.sent();
+                res.status(204).send();
+                return [3 /*break*/, 3];
+            case 2:
+                error_15 = _a.sent();
+                if (error_15.code === 'P2025')
+                    return [2 /*return*/, res.status(404).json({ error: 'Category not found.' })];
+                res.status(500).json({ error: "An error occurred while deleting the category." });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+// --- Many-to-Many Route ---
+app.post('/posts/:id/categories', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, categoryIds, updatedPost, error_16;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                categoryIds = req.body.categoryIds;
+                if (!Array.isArray(categoryIds)) {
+                    return [2 /*return*/, res.status(400).json({ error: 'categoryIds must be an array.' })];
+                }
+                return [4 /*yield*/, prisma.post.update({
+                        where: { id: Number(id) },
+                        data: {
+                            categories: {
+                                set: categoryIds.map(function (catId) { return ({ id: catId }); })
+                            }
+                        },
+                        include: {
+                            categories: true,
+                        },
+                    })];
+            case 1:
+                updatedPost = _a.sent();
+                res.json(updatedPost);
+                return [3 /*break*/, 3];
+            case 2:
+                error_16 = _a.sent();
+                if (error_16.code === 'P2025') {
+                    return [2 /*return*/, res.status(404).json({ error: 'Post or one of the categories not found.' })];
+                }
+                res.status(500).json({ error: "An error occurred while associating categories." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

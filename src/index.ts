@@ -91,7 +91,7 @@ app.post('/posts', async (req: Request, res: Response) => {
 
 app.get('/posts', async (req: Request, res: Response) => {
     try {
-        const posts = await prisma.post.findMany({ include: { author: true } });
+        const posts = await prisma.post.findMany({ include: { author: true, categories: true } });
         res.json(posts);
     } catch (error) {
         res.status(500).json({ error: "An error occurred while fetching posts." });
@@ -103,7 +103,7 @@ app.get('/posts/:id', async (req: Request, res: Response) => {
         const { id } = req.params;
         const post = await prisma.post.findUnique({
             where: { id: Number(id) },
-            include: { author: true },
+            include: { author: true, categories: true },
         });
         if (!post) return res.status(404).json({ error: 'Post not found.' });
         res.json(post);
@@ -160,6 +160,92 @@ app.get('/categories', async (req: Request, res: Response) => {
         res.json(categories);
     } catch (error) {
         res.status(500).json({ error: "An error occurred while fetching categories." });
+    }
+});
+
+app.get('/categories/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const category = await prisma.category.findUnique({ where: { id: Number(id) } });
+        if (!category) return res.status(404).json({ error: 'Category not found.' });
+        res.json(category);
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while fetching the category." });
+    }
+});
+
+app.put('/categories/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { name } = req.body;
+        const updatedCategory = await prisma.category.update({
+            where: { id: Number(id) },
+            data: { name },
+        });
+        res.json(updatedCategory);
+    } catch (error) {
+        if (error.code === 'P2025') return res.status(404).json({ error: 'Category not found.' });
+        res.status(500).json({ error: "An error occurred while updating the category." });
+    }
+});
+
+app.delete('/categories/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        await prisma.category.delete({ where: { id: Number(id) } });
+        res.status(204).send();
+    } catch (error) {
+        if (error.code === 'P2025') return res.status(404).json({ error: 'Category not found.' });
+        res.status(500).json({ error: "An error occurred while deleting the category." });
+    }
+});
+
+app.get('/categories/:id/posts', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const categoryWithPosts = await prisma.category.findUnique({
+            where: { id: Number(id) },
+            include: { posts: true }, // Include all posts in this category
+        });
+
+        if (!categoryWithPosts) {
+            return res.status(404).json({ error: 'Category not found.' });
+        }
+
+        res.json(categoryWithPosts.posts);
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while fetching posts for the category." });
+    }
+});
+
+
+// --- Many-to-Many Route ---
+app.post('/posts/:id/categories', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { categoryIds } = req.body; // Expecting: [1, 2]
+
+        if (!Array.isArray(categoryIds)) {
+            return res.status(400).json({ error: 'categoryIds must be an array.' });
+        }
+
+        const updatedPost = await prisma.post.update({
+            where: { id: Number(id) },
+            data: {
+                categories: {
+                    set: categoryIds.map((catId: number) => ({ id: catId }))
+                }
+            },
+            include: {
+                categories: true,
+            },
+        });
+        res.json(updatedPost);
+    } catch (error) {
+        if (error.code === 'P2025') {
+            return res.status(404).json({ error: 'Post or one of the categories not found.' });
+        }
+        res.status(500).json({ error: "An error occurred while associating categories." });
     }
 });
 
