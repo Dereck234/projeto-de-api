@@ -46,9 +46,9 @@ var port = process.env.PORT || 3000;
 var prisma = new client_1.PrismaClient();
 app.use(express_1.default.json());
 app.get('/', function (req, res) {
-    res.send('Express + TypeScript Server');
+    res.send('Servidor Express + TypeScript');
 });
-// --- User Routes ---
+// --- Rotas de Usuários ---
 app.get('/users', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users, error_1;
     return __generator(this, function (_a) {
@@ -62,7 +62,7 @@ app.get('/users', function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
-                res.status(500).json({ error: "An error occurred while fetching users." });
+                res.status(500).json({ error: "Ocorreu um erro ao buscar os usuários." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -85,9 +85,9 @@ app.post('/users', function (req, res) { return __awaiter(void 0, void 0, void 0
             case 2:
                 error_2 = _b.sent();
                 if (error_2.code === 'P2002') {
-                    return [2 /*return*/, res.status(409).json({ error: 'A user with this email already exists.' })];
+                    return [2 /*return*/, res.status(409).json({ error: 'Um usuário com este e-mail já existe.' })];
                 }
-                res.status(500).json({ error: "An error occurred while creating the user." });
+                res.status(500).json({ error: "Ocorreu um erro ao criar o usuário." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -104,12 +104,12 @@ app.get('/users/:id', function (req, res) { return __awaiter(void 0, void 0, voi
             case 1:
                 user = _a.sent();
                 if (!user)
-                    return [2 /*return*/, res.status(404).json({ error: 'User not found.' })];
+                    return [2 /*return*/, res.status(404).json({ error: 'Usuário não encontrado.' })];
                 res.json(user);
                 return [3 /*break*/, 3];
             case 2:
                 error_3 = _a.sent();
-                res.status(500).json({ error: "An error occurred while fetching the user." });
+                res.status(500).json({ error: "Ocorreu um erro ao buscar o usuário." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -134,8 +134,8 @@ app.put('/users/:id', function (req, res) { return __awaiter(void 0, void 0, voi
             case 2:
                 error_4 = _b.sent();
                 if (error_4.code === 'P2025')
-                    return [2 /*return*/, res.status(404).json({ error: 'User not found.' })];
-                res.status(500).json({ error: "An error occurred while updating the user." });
+                    return [2 /*return*/, res.status(404).json({ error: 'Usuário não encontrado.' })];
+                res.status(500).json({ error: "Ocorreu um erro ao atualizar o usuário." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -156,14 +156,14 @@ app.delete('/users/:id', function (req, res) { return __awaiter(void 0, void 0, 
             case 2:
                 error_5 = _a.sent();
                 if (error_5.code === 'P2025')
-                    return [2 /*return*/, res.status(404).json({ error: 'User not found.' })];
-                res.status(500).json({ error: "An error occurred while deleting the user." });
+                    return [2 /*return*/, res.status(404).json({ error: 'Usuário não encontrado.' })];
+                res.status(500).json({ error: "Ocorreu um erro ao deletar o usuário." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
-// --- Post Routes ---
+// --- Rotas de Posts ---
 app.post('/posts', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, title, content, authorId, newPost, error_6;
     return __generator(this, function (_b) {
@@ -181,8 +181,8 @@ app.post('/posts', function (req, res) { return __awaiter(void 0, void 0, void 0
             case 2:
                 error_6 = _b.sent();
                 if (error_6.code === 'P2025')
-                    return [2 /*return*/, res.status(404).json({ error: 'Author not found.' })];
-                res.status(500).json({ error: "An error occurred while creating the post." });
+                    return [2 /*return*/, res.status(404).json({ error: 'Autor não encontrado.' })];
+                res.status(500).json({ error: "Ocorreu um erro ao criar o post." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -201,7 +201,7 @@ app.get('/posts', function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [3 /*break*/, 3];
             case 2:
                 error_7 = _a.sent();
-                res.status(500).json({ error: "An error occurred while fetching posts." });
+                res.status(500).json({ error: "Ocorreu um erro ao buscar os posts." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -221,12 +221,12 @@ app.get('/posts/:id', function (req, res) { return __awaiter(void 0, void 0, voi
             case 1:
                 post = _a.sent();
                 if (!post)
-                    return [2 /*return*/, res.status(404).json({ error: 'Post not found.' })];
+                    return [2 /*return*/, res.status(404).json({ error: 'Post não encontrado.' })];
                 res.json(post);
                 return [3 /*break*/, 3];
             case 2:
                 error_8 = _a.sent();
-                res.status(500).json({ error: "An error occurred while fetching the post." });
+                res.status(500).json({ error: "Ocorreu um erro ao buscar o post." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -251,8 +251,8 @@ app.put('/posts/:id', function (req, res) { return __awaiter(void 0, void 0, voi
             case 2:
                 error_9 = _b.sent();
                 if (error_9.code === 'P2025')
-                    return [2 /*return*/, res.status(404).json({ error: 'Post not found.' })];
-                res.status(500).json({ error: "An error occurred while updating the post." });
+                    return [2 /*return*/, res.status(404).json({ error: 'Post não encontrado.' })];
+                res.status(500).json({ error: "Ocorreu um erro ao atualizar o post." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -273,14 +273,14 @@ app.delete('/posts/:id', function (req, res) { return __awaiter(void 0, void 0, 
             case 2:
                 error_10 = _a.sent();
                 if (error_10.code === 'P2025')
-                    return [2 /*return*/, res.status(404).json({ error: 'Post not found.' })];
-                res.status(500).json({ error: "An error occurred while deleting the post." });
+                    return [2 /*return*/, res.status(404).json({ error: 'Post não encontrado.' })];
+                res.status(500).json({ error: "Ocorreu um erro ao deletar o post." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
-// --- Category Routes ---
+// --- Rotas de Categorias ---
 app.post('/categories', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var name_3, newCategory, error_11;
     return __generator(this, function (_a) {
@@ -298,9 +298,9 @@ app.post('/categories', function (req, res) { return __awaiter(void 0, void 0, v
             case 2:
                 error_11 = _a.sent();
                 if (error_11.code === 'P2002') {
-                    return [2 /*return*/, res.status(409).json({ error: 'A category with this name already exists.' })];
+                    return [2 /*return*/, res.status(409).json({ error: 'Uma categoria com este nome já existe.' })];
                 }
-                res.status(500).json({ error: "An error occurred while creating the category." });
+                res.status(500).json({ error: "Ocorreu um erro ao criar a categoria." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -319,7 +319,7 @@ app.get('/categories', function (req, res) { return __awaiter(void 0, void 0, vo
                 return [3 /*break*/, 3];
             case 2:
                 error_12 = _a.sent();
-                res.status(500).json({ error: "An error occurred while fetching categories." });
+                res.status(500).json({ error: "Ocorreu um erro ao buscar as categorias." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -336,12 +336,12 @@ app.get('/categories/:id', function (req, res) { return __awaiter(void 0, void 0
             case 1:
                 category = _a.sent();
                 if (!category)
-                    return [2 /*return*/, res.status(404).json({ error: 'Category not found.' })];
+                    return [2 /*return*/, res.status(404).json({ error: 'Categoria não encontrada.' })];
                 res.json(category);
                 return [3 /*break*/, 3];
             case 2:
                 error_13 = _a.sent();
-                res.status(500).json({ error: "An error occurred while fetching the category." });
+                res.status(500).json({ error: "Ocorreu um erro ao buscar a categoria." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -366,8 +366,8 @@ app.put('/categories/:id', function (req, res) { return __awaiter(void 0, void 0
             case 2:
                 error_14 = _a.sent();
                 if (error_14.code === 'P2025')
-                    return [2 /*return*/, res.status(404).json({ error: 'Category not found.' })];
-                res.status(500).json({ error: "An error occurred while updating the category." });
+                    return [2 /*return*/, res.status(404).json({ error: 'Categoria não encontrada.' })];
+                res.status(500).json({ error: "Ocorreu um erro ao atualizar a categoria." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -388,8 +388,8 @@ app.delete('/categories/:id', function (req, res) { return __awaiter(void 0, voi
             case 2:
                 error_15 = _a.sent();
                 if (error_15.code === 'P2025')
-                    return [2 /*return*/, res.status(404).json({ error: 'Category not found.' })];
-                res.status(500).json({ error: "An error occurred while deleting the category." });
+                    return [2 /*return*/, res.status(404).json({ error: 'Categoria não encontrada.' })];
+                res.status(500).json({ error: "Ocorreu um erro ao deletar a categoria." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -404,24 +404,24 @@ app.get('/categories/:id/posts', function (req, res) { return __awaiter(void 0, 
                 id = req.params.id;
                 return [4 /*yield*/, prisma.category.findUnique({
                         where: { id: Number(id) },
-                        include: { posts: true }, // Include all posts in this category
+                        include: { posts: true }, // Inclui todos os posts nesta categoria
                     })];
             case 1:
                 categoryWithPosts = _a.sent();
                 if (!categoryWithPosts) {
-                    return [2 /*return*/, res.status(404).json({ error: 'Category not found.' })];
+                    return [2 /*return*/, res.status(404).json({ error: 'Categoria não encontrada.' })];
                 }
                 res.json(categoryWithPosts.posts);
                 return [3 /*break*/, 3];
             case 2:
                 error_16 = _a.sent();
-                res.status(500).json({ error: "An error occurred while fetching posts for the category." });
+                res.status(500).json({ error: "Ocorreu um erro ao buscar os posts da categoria." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
-// --- Many-to-Many Route ---
+// --- Rota Many-to-Many ---
 app.post('/posts/:id/categories', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id, categoryIds, updatedPost, error_17;
     return __generator(this, function (_a) {
@@ -431,7 +431,7 @@ app.post('/posts/:id/categories', function (req, res) { return __awaiter(void 0,
                 id = req.params.id;
                 categoryIds = req.body.categoryIds;
                 if (!Array.isArray(categoryIds)) {
-                    return [2 /*return*/, res.status(400).json({ error: 'categoryIds must be an array.' })];
+                    return [2 /*return*/, res.status(400).json({ error: 'O campo categoryIds deve ser um array.' })];
                 }
                 return [4 /*yield*/, prisma.post.update({
                         where: { id: Number(id) },
@@ -451,15 +451,15 @@ app.post('/posts/:id/categories', function (req, res) { return __awaiter(void 0,
             case 2:
                 error_17 = _a.sent();
                 if (error_17.code === 'P2025') {
-                    return [2 /*return*/, res.status(404).json({ error: 'Post or one of the categories not found.' })];
+                    return [2 /*return*/, res.status(404).json({ error: 'Post ou uma das categorias não encontrado.' })];
                 }
-                res.status(500).json({ error: "An error occurred while associating categories." });
+                res.status(500).json({ error: "Ocorreu um erro ao associar as categorias." });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
 app.listen(port, function () {
-    console.log("[server]: Server is running at http://localhost:".concat(port));
+    console.log("[servidor]: Servidor rodando em http://localhost:".concat(port));
 });
 //# sourceMappingURL=index.js.map

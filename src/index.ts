@@ -9,16 +9,16 @@ const prisma = new PrismaClient();
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
+  res.send('Servidor Express + TypeScript');
 });
 
-// --- User Routes ---
+// --- Rotas de Usuários ---
 app.get('/users', async (req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany();
     res.json(users);
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while fetching users." });
+    res.status(500).json({ error: "Ocorreu um erro ao buscar os usuários." });
   }
 });
 
@@ -31,9 +31,9 @@ app.post('/users', async (req: Request, res: Response) => {
     res.status(201).json(newUser);
   } catch (error) {
     if (error.code === 'P2002') {
-      return res.status(409).json({ error: 'A user with this email already exists.' });
+      return res.status(409).json({ error: 'Um usuário com este e-mail já existe.' });
     }
-    res.status(500).json({ error: "An error occurred while creating the user." });
+    res.status(500).json({ error: "Ocorreu um erro ao criar o usuário." });
   }
 });
 
@@ -41,10 +41,10 @@ app.get('/users/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const user = await prisma.user.findUnique({ where: { id: Number(id) } });
-        if (!user) return res.status(404).json({ error: 'User not found.' });
+        if (!user) return res.status(404).json({ error: 'Usuário não encontrado.' });
         res.json(user);
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while fetching the user." });
+        res.status(500).json({ error: "Ocorreu um erro ao buscar o usuário." });
     }
 });
 
@@ -58,8 +58,8 @@ app.put('/users/:id', async (req: Request, res: Response) => {
         });
         res.json(updatedUser);
     } catch (error) {
-        if (error.code === 'P2025') return res.status(404).json({ error: 'User not found.' });
-        res.status(500).json({ error: "An error occurred while updating the user." });
+        if (error.code === 'P2025') return res.status(404).json({ error: 'Usuário não encontrado.' });
+        res.status(500).json({ error: "Ocorreu um erro ao atualizar o usuário." });
     }
 });
 
@@ -69,13 +69,13 @@ app.delete('/users/:id', async (req: Request, res: Response) => {
         await prisma.user.delete({ where: { id: Number(id) } });
         res.status(204).send();
     } catch (error) {
-        if (error.code === 'P2025') return res.status(404).json({ error: 'User not found.' });
-        res.status(500).json({ error: "An error occurred while deleting the user." });
+        if (error.code === 'P2025') return res.status(404).json({ error: 'Usuário não encontrado.' });
+        res.status(500).json({ error: "Ocorreu um erro ao deletar o usuário." });
     }
 });
 
 
-// --- Post Routes ---
+// --- Rotas de Posts ---
 app.post('/posts', async (req: Request, res: Response) => {
     try {
         const { title, content, authorId } = req.body;
@@ -84,8 +84,8 @@ app.post('/posts', async (req: Request, res: Response) => {
         });
         res.status(201).json(newPost);
     } catch (error) {
-        if (error.code === 'P2025') return res.status(404).json({ error: 'Author not found.' });
-        res.status(500).json({ error: "An error occurred while creating the post." });
+        if (error.code === 'P2025') return res.status(404).json({ error: 'Autor não encontrado.' });
+        res.status(500).json({ error: "Ocorreu um erro ao criar o post." });
     }
 });
 
@@ -94,7 +94,7 @@ app.get('/posts', async (req: Request, res: Response) => {
         const posts = await prisma.post.findMany({ include: { author: true, categories: true } });
         res.json(posts);
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while fetching posts." });
+        res.status(500).json({ error: "Ocorreu um erro ao buscar os posts." });
     }
 });
 
@@ -105,10 +105,10 @@ app.get('/posts/:id', async (req: Request, res: Response) => {
             where: { id: Number(id) },
             include: { author: true, categories: true },
         });
-        if (!post) return res.status(404).json({ error: 'Post not found.' });
+        if (!post) return res.status(404).json({ error: 'Post não encontrado.' });
         res.json(post);
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while fetching the post." });
+        res.status(500).json({ error: "Ocorreu um erro ao buscar o post." });
     }
 });
 
@@ -122,8 +122,8 @@ app.put('/posts/:id', async (req: Request, res: Response) => {
         });
         res.json(updatedPost);
     } catch (error) {
-        if (error.code === 'P2025') return res.status(404).json({ error: 'Post not found.' });
-        res.status(500).json({ error: "An error occurred while updating the post." });
+        if (error.code === 'P2025') return res.status(404).json({ error: 'Post não encontrado.' });
+        res.status(500).json({ error: "Ocorreu um erro ao atualizar o post." });
     }
 });
 
@@ -133,12 +133,12 @@ app.delete('/posts/:id', async (req: Request, res: Response) => {
         await prisma.post.delete({ where: { id: Number(id) } });
         res.status(204).send();
     } catch (error) {
-        if (error.code === 'P2025') return res.status(404).json({ error: 'Post not found.' });
-        res.status(500).json({ error: "An error occurred while deleting the post." });
+        if (error.code === 'P2025') return res.status(404).json({ error: 'Post não encontrado.' });
+        res.status(500).json({ error: "Ocorreu um erro ao deletar o post." });
     }
 });
 
-// --- Category Routes ---
+// --- Rotas de Categorias ---
 app.post('/categories', async (req: Request, res: Response) => {
     try {
         const { name } = req.body;
@@ -148,9 +148,9 @@ app.post('/categories', async (req: Request, res: Response) => {
         res.status(201).json(newCategory);
     } catch (error) {
         if (error.code === 'P2002') {
-            return res.status(409).json({ error: 'A category with this name already exists.' });
+            return res.status(409).json({ error: 'Uma categoria com este nome já existe.' });
         }
-        res.status(500).json({ error: "An error occurred while creating the category." });
+        res.status(500).json({ error: "Ocorreu um erro ao criar a categoria." });
     }
 });
 
@@ -159,7 +159,7 @@ app.get('/categories', async (req: Request, res: Response) => {
         const categories = await prisma.category.findMany();
         res.json(categories);
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while fetching categories." });
+        res.status(500).json({ error: "Ocorreu um erro ao buscar as categorias." });
     }
 });
 
@@ -167,10 +167,10 @@ app.get('/categories/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const category = await prisma.category.findUnique({ where: { id: Number(id) } });
-        if (!category) return res.status(404).json({ error: 'Category not found.' });
+        if (!category) return res.status(404).json({ error: 'Categoria não encontrada.' });
         res.json(category);
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while fetching the category." });
+        res.status(500).json({ error: "Ocorreu um erro ao buscar a categoria." });
     }
 });
 
@@ -184,8 +184,8 @@ app.put('/categories/:id', async (req: Request, res: Response) => {
         });
         res.json(updatedCategory);
     } catch (error) {
-        if (error.code === 'P2025') return res.status(404).json({ error: 'Category not found.' });
-        res.status(500).json({ error: "An error occurred while updating the category." });
+        if (error.code === 'P2025') return res.status(404).json({ error: 'Categoria não encontrada.' });
+        res.status(500).json({ error: "Ocorreu um erro ao atualizar a categoria." });
     }
 });
 
@@ -195,8 +195,8 @@ app.delete('/categories/:id', async (req: Request, res: Response) => {
         await prisma.category.delete({ where: { id: Number(id) } });
         res.status(204).send();
     } catch (error) {
-        if (error.code === 'P2025') return res.status(404).json({ error: 'Category not found.' });
-        res.status(500).json({ error: "An error occurred while deleting the category." });
+        if (error.code === 'P2025') return res.status(404).json({ error: 'Categoria não encontrada.' });
+        res.status(500).json({ error: "Ocorreu um erro ao deletar a categoria." });
     }
 });
 
@@ -205,51 +205,70 @@ app.get('/categories/:id/posts', async (req: Request, res: Response) => {
         const { id } = req.params;
         const categoryWithPosts = await prisma.category.findUnique({
             where: { id: Number(id) },
-            include: { posts: true }, // Include all posts in this category
+            include: { posts: { include: { post: true } } },
         });
 
         if (!categoryWithPosts) {
-            return res.status(404).json({ error: 'Category not found.' });
+            return res.status(404).json({ error: 'Categoria não encontrada.' });
         }
 
-        res.json(categoryWithPosts.posts);
+        res.json(categoryWithPosts.posts.map(p => p.post));
     } catch (error) {
-        res.status(500).json({ error: "An error occurred while fetching posts for the category." });
+        res.status(500).json({ error: "Ocorreu um erro ao buscar os posts da categoria." });
     }
 });
 
 
-// --- Many-to-Many Route ---
+// --- Rota Many-to-Many ---
 app.post('/posts/:id/categories', async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
-        const { categoryIds } = req.body; // Expecting: [1, 2]
+        const postId = Number(req.params.id);
+        const { categoryIds } = req.body; // Esperando: [1, 2]
 
         if (!Array.isArray(categoryIds)) {
-            return res.status(400).json({ error: 'categoryIds must be an array.' });
+            return res.status(400).json({ error: 'O campo categoryIds deve ser um array.' });
         }
 
-        const updatedPost = await prisma.post.update({
-            where: { id: Number(id) },
-            data: {
-                categories: {
-                    set: categoryIds.map((catId: number) => ({ id: catId }))
-                }
-            },
-            include: {
-                categories: true,
-            },
+        // Transação para garantir a atomicidade da operação
+        const result = await prisma.$transaction(async (tx) => {
+            // 1. Deletar todas as associações existentes para este post
+            await tx.postCategory.deleteMany({
+                where: { postId: postId },
+            });
+
+            // 2. Criar as novas associações
+            await tx.postCategory.createMany({
+                data: categoryIds.map((catId: number) => ({
+                    postId: postId,
+                    categoryId: catId,
+                })),
+            });
+
+            // 3. Retornar o post atualizado com as novas categorias
+            return tx.post.findUnique({
+                where: { id: postId },
+                include: {
+                    categories: {
+                        include: {
+                            category: true,
+                        },
+                    },
+                },
+            });
         });
-        res.json(updatedPost);
+
+        res.json(result);
+
     } catch (error) {
-        if (error.code === 'P2025') {
-            return res.status(404).json({ error: 'Post or one of the categories not found.' });
+        // P2025 é o erro para "registro não encontrado" na operação
+        if (error.code === 'P2025' || error.code === 'P2003') {
+            return res.status(404).json({ error: 'Post ou uma das categorias não foi encontrado.' });
         }
-        res.status(500).json({ error: "An error occurred while associating categories." });
+        res.status(500).json({ error: "Ocorreu um erro ao associar as categorias." });
     }
 });
 
 
 app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+  console.log(`[servidor]: Servidor rodando em http://localhost:${port}`);
 });
