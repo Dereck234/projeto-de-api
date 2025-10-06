@@ -395,9 +395,35 @@ app.delete('/categories/:id', function (req, res) { return __awaiter(void 0, voi
         }
     });
 }); });
+app.get('/categories/:id/posts', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, categoryWithPosts, error_16;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                return [4 /*yield*/, prisma.category.findUnique({
+                        where: { id: Number(id) },
+                        include: { posts: true }, // Include all posts in this category
+                    })];
+            case 1:
+                categoryWithPosts = _a.sent();
+                if (!categoryWithPosts) {
+                    return [2 /*return*/, res.status(404).json({ error: 'Category not found.' })];
+                }
+                res.json(categoryWithPosts.posts);
+                return [3 /*break*/, 3];
+            case 2:
+                error_16 = _a.sent();
+                res.status(500).json({ error: "An error occurred while fetching posts for the category." });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 // --- Many-to-Many Route ---
 app.post('/posts/:id/categories', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, categoryIds, updatedPost, error_16;
+    var id, categoryIds, updatedPost, error_17;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -423,8 +449,8 @@ app.post('/posts/:id/categories', function (req, res) { return __awaiter(void 0,
                 res.json(updatedPost);
                 return [3 /*break*/, 3];
             case 2:
-                error_16 = _a.sent();
-                if (error_16.code === 'P2025') {
+                error_17 = _a.sent();
+                if (error_17.code === 'P2025') {
                     return [2 /*return*/, res.status(404).json({ error: 'Post or one of the categories not found.' })];
                 }
                 res.status(500).json({ error: "An error occurred while associating categories." });
