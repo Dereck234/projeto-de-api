@@ -1,51 +1,46 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalhes do Filme - Cinema API</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="estilo-filme.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cine Prisma - Detalhes do Filme</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/estilo-filme.css">
 </head>
 <body>
-  <header>
-    <div class="header-container">
-      <h1><a href="/">Cinema API</a></h1>
-      <nav id="user-nav">
-        <!-- Gerenciado pelo user-status.js -->
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    <div id="filme-detalhe-container">
-      <!-- O conteúdo do filme (imagem, título) será carregado aqui pelo filme.js -->
-    </div>
-
-    <!-- NOVA ESTRUTURA PARA SELEÇÃO DE SESSÕES -->
-    <div class="seletor-sessoes">
-        <div id="seletor-data-container">
-            <!-- Os botões de data serão gerados dinamicamente aqui -->
+    <header>
+        <div class="container">
+            <a href="/" class="logo">Cine Prisma</a>
+            <nav id="nav-menu">
+                <!-- O menu de usuário será carregado via user-status.js -->
+            </nav>
         </div>
+    </header>
 
-        <div id="sessoes-agrupadas-container">
-            <!-- As sessões agrupadas por tipo e local aparecerão aqui -->
-        </div>
-    </div>
+    <main class="container">
+        <section id="filme-detalhe-container">
+            <!-- O conteúdo do filme será carregado aqui pelo filme.js -->
+        </section>
 
+        <section class="seletor-sessoes">
+            <div id="seletor-data-container">
+                <!-- Os botões de data serão gerados dinamicamente aqui -->
+            </div>
+            <div id="sessoes-agrupadas-container">
+                <!-- As sessões agrupadas por tipo e local aparecerão aqui -->
+            </div>
+        </section>
 
-    <!-- O container abaixo sera usado para renderizar a grade de assentos e o formulario de reserva -->
-    <div id="reserva-container">
-      <!-- Conteudo injetado dinamicamente pelo filme.js -->
-    </div>
-  </main>
+        <section id="reserva-container">
+            <!-- A grade de assentos será injetada aqui dinamicamente -->
+        </section>
+    </main>
 
-  <footer>
-    <p>Cine API - Todos os direitos reservados</p>
-  </footer>
+    <footer>
+        <p>&copy; 2024 Cine Prisma. Todos os direitos reservados.</p>
+    </footer>
 
-  <script src="user-status.js"></script>
-  <script src="filme.js" defer></script>
+    <script src="js/user-status.js"></script>
+    <script src="js/filme.js" defer></script>
 </body>
 </html>

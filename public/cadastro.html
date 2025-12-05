@@ -1,93 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Cinema API</title>
-    <link rel="stylesheet" href="/estilo.css">
-    <link rel="stylesheet" href="/estilo-login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Cine Prisma</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <h1><a href="/" style="color: #fff; text-decoration: none;">Cinema API</a></h1>
-    </header>
+  <header>
+    <div class="container">
+        <a href="/" class="logo">Cine Prisma</a>
+        <nav id="nav-menu">
+            <!-- O menu de usuário será carregado via user-status.js -->
+        </nav>
+    </div>
+  </header>
 
-    <main class="login-container">
-        <div class="login-box">
-            <h2>Criar Conta</h2>
-            <form id="formCadastro">
-                <div class="input-group">
-                    <input type="text" id="nome" placeholder="Nome completo" required>
-                </div>
-                <div class="input-group">
-                    <input type="email" id="email" placeholder="Email" required>
-                </div>
-                <div class="input-group password-wrapper">
-                    <input type="password" id="senha" placeholder="Senha" required>
-                    <img src="/imagens/hide.png" id="toggleSenha" alt="Mostrar/Ocultar Senha">
-                </div>
-                <button type="submit" class="login-button-form">Cadastrar</button>
-            </form>
-            <div id="mensagem" class="error-message"></div>
-            <p class="signup-link">Já tem uma conta? <a href="/login.html">Faça login</a>.</p>
+  <main class="container auth-page">
+    <div class="auth-form-container">
+      <h2>Crie sua Conta</h2>
+      <form id="register-form">
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" required>
         </div>
-    </main>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" name="senha" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Criar Conta</button>
+        <p id="error-message" class="error-message"></p>
+      </form>
+      <p>Já tem uma conta? <a href="/login.html">Acesse aqui</a>.</p>
+    </div>
+  </main>
 
-    <footer>
-        <p>&copy; 2024 - API de Cinema</p>
-    </footer>
+  <footer>
+    <p>&copy; 2024 Cine Prisma. Todos os direitos reservados.</p>
+  </footer>
 
-    <script type="module">
-        import api from './services/api.js';
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('formCadastro');
-            const mensagemDiv = document.getElementById('mensagem');
-            const toggleSenha = document.getElementById('toggleSenha');
-            const senhaInput = document.getElementById('senha');
-
-            toggleSenha.addEventListener('click', () => {
-                const type = senhaInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                senhaInput.setAttribute('type', type);
-                toggleSenha.src = type === 'password' ? '/imagens/hide.png' : '/imagens/view.png';
-            });
-
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault();
-
-                const nome = document.getElementById('nome').value;
-                const email = document.getElementById('email').value;
-                const senha = senhaInput.value;
-                mensagemDiv.textContent = '';
-                mensagemDiv.className = 'error-message';
-
-                try {
-                    // CORREÇÃO: Endpoint ajustado para /usuarios, conforme definido no back-end.
-                    await api.post('/usuarios', { nome, email, senha });
-
-                    mensagemDiv.textContent = 'Usuário criado com sucesso! Redirecionando para o login...';
-                    mensagemDiv.className = 'message-success'; // Classe para sucesso
-                    mensagemDiv.style.display = 'block';
-
-                    setTimeout(() => {
-                        window.location.href = '/login.html';
-                    }, 2000);
-
-                } catch (error) {
-                    mensagemDiv.style.display = 'block';
-                    if (error.response && error.response.data && error.response.data.error) {
-                        mensagemDiv.textContent = error.response.data.error;
-                    } else if (error.response && error.response.data && error.response.data.errors) {
-                        const zodErrors = error.response.data.errors.map(err => err.message).join(' ');
-                        mensagemDiv.textContent = zodErrors;
-                    } else {
-                        mensagemDiv.textContent = 'Ocorreu um erro ao tentar criar a conta. Verifique o console para mais detalhes.';
-                        console.error('Erro no cadastro:', error); // Log do erro para depuração
-                    }
-                }
-            });
-        });
-    </script>
-
+  <script src="js/auth.js"></script>
+  <script src="js/user-status.js"></script>
 </body>
 </html>

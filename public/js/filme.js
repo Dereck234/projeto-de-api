@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
   // --- ELEMENTOS DO DOM ---
   const filmeDetalheContainer = document.getElementById('filme-detalhe-container');
@@ -143,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetButton = event.target.closest('.horario-btn');
       if (!targetButton) return;
 
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('token'); // << CORREÇÃO APLICADA
       if (!token) {
           alert('Você precisa estar logado para fazer uma reserva.');
           window.location.href = '/login.html';
@@ -189,7 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Atualiza o estado local da sessão para refletir o novo assento ocupado
           sessao.assentosOcupados.push(primeiroLivre);
-          // Não é necessário re-renderizar tudo, o estado já está atualizado para a próxima tentativa
 
       } catch (error) {
           console.error('Erro ao reservar:', error);

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine Prisma - Filmes em Cartaz</title>
+    <title>Minhas Reservas - Cine Prisma</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,15 +12,18 @@
         <div class="container">
             <a href="/" class="logo">Cine Prisma</a>
             <nav id="nav-menu">
-                <!-- O menu de usuário será carregado via user-status.js -->
+                <!-- O menu de usuário será carregado via JS -->
             </nav>
         </div>
     </header>
 
     <main class="container">
-        <h1 class="main-title">Filmes em Cartaz</h1>
-        <section id="filmes-container" class="grid-container">
-            <!-- Os filmes da API serão inseridos aqui pelo home.js -->
+        <section id="minhas-reservas-section">
+            <h1>Minhas Reservas</h1>
+            <div id="reservas-container">
+                <!-- As reservas serão carregadas aqui -->
+                <p>Carregando suas reservas...</p>
+            </div>
         </section>
     </main>
 
@@ -27,7 +31,7 @@
         <p>&copy; 2024 Cine Prisma. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="js/user-status.js"></script>
-    <script src="js/home.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/reservas.js"></script>
 </body>
 </html>

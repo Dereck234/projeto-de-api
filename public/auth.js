@@ -1,88 +1,72 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-  const loginForm = document.getElementById('login-form');
-  const registerForm = document.getElementById('register-form');
-  const errorMessage = document.getElementById('error-message');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const errorMessage = document.getElementById('error-message');
 
-  // Manipulador para o formulário de LOGIN
-  if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorMessage.textContent = '';
-
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
-
-      try {
-        const response = await fetch('/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, senha }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || 'Erro ao fazer login');
+    const handleLogin = async (email, senha) => {
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, senha }),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao fazer login');
+            }
+            // Padronizando o armazenamento com 'token' e salvando o nome do usuário
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userName', data.user.nome); // Assumindo que a API retorna o nome do usuário
+            window.location.href = '/minhas-reservas.html'; // Redireciona para a página de reservas
+        } catch (error) {
+            if (errorMessage) {
+                errorMessage.textContent = error.message;
+            }
+            console.error('Falha no login:', error);
         }
+    };
 
-        // Sucesso! Salva o token e redireciona
-        localStorage.setItem('authToken', data.token);
-        window.location.href = '/perfil.html'; // Redireciona para a página de perfil
-
-      } catch (error) {
-        errorMessage.textContent = error.message;
-      }
-    });
-  }
-
-  // Manipulador para o formulário de REGISTRO
-  if (registerForm) {
-    registerForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorMessage.textContent = '';
-
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
-
-      try {
-        const response = await fetch('/api/usuarios', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ nome, email, senha }),
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            await handleLogin(email, senha);
         });
+    }
 
-        const data = await response.json();
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (errorMessage) errorMessage.textContent = '';
 
-        if (!response.ok) {
-          throw new Error(data.message || 'Erro ao registrar');
-        }
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
 
-        // Se o registro foi bem-sucedido, faz o login automaticamente para obter o token
-        const loginResponse = await fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, senha }),
+            try {
+                const response = await fetch('/api/usuarios', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome, email, senha }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Erro ao registrar');
+                }
+
+                // Após o registro bem-sucedido, faz o login automaticamente
+                alert('Registro bem-sucedido! Você será logado automaticamente.');
+                await handleLogin(email, senha);
+
+            } catch (error) {
+                if (errorMessage) {
+                    errorMessage.textContent = error.message;
+                }
+                console.error('Falha no registro:', error);
+            }
         });
-
-        const loginData = await loginResponse.json();
-
-        if (!loginResponse.ok) {
-          throw new Error(loginData.message || 'Registro bem-sucedido, mas falha ao logar.');
-        }
-
-        // Sucesso! Salva o token e redireciona
-        localStorage.setItem('authToken', loginData.token);
-        window.location.href = '/perfil.html'; // Redireciona para a página de perfil
-
-      } catch (error) {
-        errorMessage.textContent = error.message;
-      }
-    });
-  }
+    }
 });
