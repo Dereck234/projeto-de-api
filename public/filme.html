@@ -1,39 +1,25 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cine Prisma - Detalhes do Filme</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/estilo-filme.css">
 </head>
 <body>
     <header>
-        <div class="container">
-            <a href="/" class="logo">Cine Prisma</a>
+        <div class="header-container">
+            <h1><a href="/">Cine Prisma</a></h1>
             <nav id="nav-menu">
                 <!-- O menu de usuário será carregado via user-status.js -->
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section id="filme-detalhe-container">
-            <!-- O conteúdo do filme será carregado aqui pelo filme.js -->
-        </section>
-
-        <section class="seletor-sessoes">
-            <div id="seletor-data-container">
-                <!-- Os botões de data serão gerados dinamicamente aqui -->
-            </div>
-            <div id="sessoes-agrupadas-container">
-                <!-- As sessões agrupadas por tipo e local aparecerão aqui -->
-            </div>
-        </section>
-
-        <section id="reserva-container">
-            <!-- A grade de assentos será injetada aqui dinamicamente -->
-        </section>
+    <main>
+        <!-- A seção de detalhes do filme será injetada aqui -->
+        <div id="filme-detalhe-container"></div>
     </main>
 
     <footer>
