@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil - Cinema API</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1><a href="/" style="color: inherit; text-decoration: none;">Cinema API</a></h1>
+      <nav id="user-nav">
+        <!-- Os botões de login/logout aparecerão aqui -->
+      </nav>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <div class="auth-form-container">
+      <h2>Meu Perfil</h2>
+      <div id="user-profile">
+        <p><strong>Nome:</strong> <span id="user-nome"></span></p>
+        <p><strong>Email:</strong> <span id="user-email"></span></p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Cine API - Todos os direitos reservados</p>
+  </footer>
+
+  <script src="user-status.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('authToken');
+
+      // 1. Proteção da Rota: Se não há token, volta para o login
+      if (!token) {
+        window.location.href = '/login.html';
+        return; // Interrompe a execução do script
+      }
+
+      // 2. Se há token, busca os dados do perfil na API
+      try {
+        const response = await fetch('/api/usuarios/perfil', {
+          headers: {
+            // 3. Envia o token no cabeçalho Authorization
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          // Se o token for inválido/expirado, a API retornará erro
+          localStorage.removeItem('authToken'); // Limpa o token inválido
+          window.location.href = '/login.html';
+          return;
+        }
+
+        const user = await response.json();
+
+        // 4. Exibe os dados do usuário na página
+        document.getElementById('user-nome').textContent = user.nome;
+        document.getElementById('user-email').textContent = user.email;
+
+      } catch (error) {
+        console.error('Erro ao buscar perfil:', error);
+        // Em caso de erro de rede, etc., também desloga
+        localStorage.removeItem('authToken');
+        window.location.href = '/login.html';
+      }
+    });
+  </script>
+</body>
+</html>

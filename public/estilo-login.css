@@ -1,0 +1,89 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 150px); /* Altura da tela menos header/footer */
+    padding: 2rem;
+}
+
+.login-box {
+    background-color: #1f1f1f;
+    padding: 2.5rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.login-box h2 {
+    margin-bottom: 2rem;
+    border: none;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    position: relative; /* Contexto de posicionamento para o ícone */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #333;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que padding não afete a largura total */
+}
+
+/* Estilo específico para o campo de senha com ícone */
+.password-wrapper input {
+    padding-right: 2.5rem; /* Adiciona espaço para o ícone não sobrepor o texto */
+}
+
+.password-wrapper img {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 20px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+}
+
+.login-button-form {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #e50914;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-button-form:hover {
+    background-color: #f6121d;
+}
+
+.error-message {
+    color: #f6121d;
+    margin-top: 1rem;
+    min-height: 1.2em; /* Evita que o layout pule quando a mensagem aparece */
+}
+
+.signup-link {
+    margin-top: 1.5rem;
+    color: #aaa;
+}
+
+.signup-link a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}

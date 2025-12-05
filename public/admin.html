@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Controle do Cinema</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Painel de Administração</h1>
+            <a href="/" class="nav-link">Voltar para o Site</a>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <!-- Seção para Adicionar Filmes -->
+        <section class="admin-section">
+            <h2>Adicionar Novo Filme</h2>
+            <form id="form-criar-filme">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" required>
+
+                <label for="sinopse">Sinopse:</label>
+                <textarea id="sinopse" name="sinopse" rows="4"></textarea>
+
+                <label for="imagem">URL da Imagem do Cartaz:</label>
+                <input type="url" id="imagem" name="imagem" required>
+
+                <button type="submit" class="action-btn">Salvar Filme</button>
+            </form>
+            <div id="filme-feedback" class="feedback-message"></div>
+        </section>
+
+        <!-- Seção para Adicionar Sessões -->
+        <section class="admin-section">
+            <h2>Adicionar Nova Sessão</h2>
+            <form id="form-criar-sessao">
+                <label for="filme-select">Selecione o Filme:</label>
+                <select id="filme-select" name="filmeId" required>
+                    <option value="">Carregando filmes...</option>
+                </select>
+
+                <label for="data-sessao">Data e Hora:</label>
+                <input type="datetime-local" id="data-sessao" name="data" required>
+
+                <label for="local-sessao">Local (Ex: Sala 1, Sala VIP):</label>
+                <input type="text" id="local-sessao" name="local" required>
+
+                <label for="tipo-sessao">Tipo (Ex: 3D, Legendado):</label>
+                <input type="text" id="tipo-sessao" name="tipo" value="2D" required>
+
+                <button type="submit" class="action-btn">Salvar Sessão</button>
+            </form>
+            <div id="sessao-feedback" class="feedback-message"></div>
+        </section>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>

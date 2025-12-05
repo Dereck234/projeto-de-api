@@ -1,5 +1,10 @@
+# Arquivos de log e dependências
 node_modules
-# Keep environment variables out of version control
+npm-debug.log
+
+# Arquivos de ambiente - NUNCA comite isso!
 .env
 
-/src/generated/prisma
+# Pasta de build (caso você use TypeScript ou um bundler)
+dist
+build

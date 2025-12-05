@@ -1,5 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -7,38 +5,41 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model Usuario {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  nome      String?
+  senhaHash String
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  categories PostCategory[]
+model Filme {
+  id      Int      @id @default(autoincrement())
+  titulo  String
+  imagem  String // Campo renomeado de caminhoDaImagem
+  sessoes Sessao[]
 }
 
-model Category {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
-  posts PostCategory[]
+model Sessao {
+  id               Int      @id @default(autoincrement())
+  local            String
+  data             DateTime
+  horarios         String
+  tipo             String
+  filmeId          Int
+  filme            Filme    @relation(fields: [filmeId], references: [id])
+  
+  // Novos campos para reserva
+  assentosOcupados String   @default("[]") // Armazena um JSON array de strings: ["A1", "B2"]
+  reservas         Reserva[]
 }
 
-// Model for many-to-many relationship between Post and Category
-model PostCategory {
-  post       Post     @relation(fields: [postId], references: [id])
-  postId     Int
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
-
-  @@id([postId, categoryId])
+model Reserva {
+  id          Int    @id @default(autoincrement())
+  nomeCliente String
+  assentos    String // Armazena um JSON array de strings: ["A1", "B2"]
+  sessaoId    Int
+  sessao      Sessao @relation(fields: [sessaoId], references: [id])
 }

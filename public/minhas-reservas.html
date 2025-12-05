@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minhas Reservas - Cinema API</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1><a href="/">Cinema API</a></h1>
+      <nav id="user-nav">
+        <!-- Gerenciado pelo user-status.js -->
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="reservas-header">
+      <h2>Minhas Reservas</h2>
+    </div>
+    
+    <div id="reservas-container">
+      <!-- Cards de reserva serão inseridos aqui via JS -->
+    </div>
+  </main>
+
+  <footer>
+    <p>Cine API - Todos os direitos reservados</p>
+  </footer>
+
+  <script src="user-status.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      const reservasContainer = document.getElementById('reservas-container');
+
+      async function loadReservas() {
+        try {
+          const response = await fetch('/api/reservas', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          
+          if (!response.ok) throw new Error('Falha ao carregar suas reservas.');
+          
+          const reservas = await response.json();
+          reservasContainer.innerHTML = '';
+
+          if (reservas.length === 0) {
+            reservasContainer.innerHTML = '<p class="info-message">Você ainda não fez nenhuma reserva.</p>';
+            return;
+          }
+
+          reservas.forEach(reserva => {
+            const card = document.createElement('div');
+            // Adiciona a classe clickable e o data-attribute com o ID do filme
+            card.className = 'reserva-card clickable'; 
+            card.dataset.filmeId = reserva.sessao.filme.id;
+            
+            // CORREÇÃO: Usando `reserva.sessao.filme.imagem`
+            card.innerHTML = `
+              <img src="${reserva.sessao.filme.imagem || 'https://via.placeholder.com/150x225'}" alt="Cartaz de ${reserva.sessao.filme.titulo}">
+              <div class="reserva-info">
+                <h3>${reserva.sessao.filme.titulo}</h3>
+                <p><strong>Data:</strong> ${new Date(reserva.sessao.data).toLocaleDateString('pt-BR')}</p>
+                <p><strong>Horário:</strong> ${new Date('1970-01-01T' + reserva.sessao.horarios).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                <p><strong>Local:</strong> ${reserva.sessao.local}</p>
+                <p><strong>Assentos:</strong> <span class="assento-numero">${JSON.parse(reserva.assentos).join(', ')}</span></p>
+              </div>
+            `;
+            reservasContainer.appendChild(card);
+          });
+
+        } catch (error) {
+          console.error('Erro:', error);
+          reservasContainer.innerHTML = `<p class="error-message">${error.message}</p>`;
+        }
+      }
+
+      // --- LÓGICA DE CLIQUE ---
+      reservasContainer.addEventListener('click', async (e) => {
+        const targetCard = e.target.closest('.reserva-card');
+        if (!targetCard) return;
+
+        // Verifica se o clique foi em um botão dentro do card
+        const isButtonClick = e.target.closest('button');
+
+        // Se o clique NÃO foi em um botão, redireciona para a página do filme
+        if (!isButtonClick) {
+          const filmeId = targetCard.dataset.filmeId;
+          if (filmeId) {
+            window.location.href = `/filme.html?id=${filmeId}`;
+          }
+        }
+      });
+
+      loadReservas(); // Carrega as reservas ao iniciar
+    });
+  </script>
+</body>
+</html>

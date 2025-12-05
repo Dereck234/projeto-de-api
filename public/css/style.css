@@ -1,0 +1,187 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px; /* Largura mais apropriada para detalhes */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #fff;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 1.8rem;
+}
+
+/* Navegação do Usuário */
+#user-nav a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+#user-nav .logout-btn {
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
+
+
+/* --- ESTILOS PARA A NOVA PÁGINA DE FILME --- */
+
+/* Detalhes do Filme */
+#filme-detalhe-container {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+#filme-detalhe-container img {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.filme-info h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    color: #0056b3;
+}
+
+/* Seletor de Sessões Completo */
+.seletor-sessoes {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Carrossel/Seletor de Data */
+#seletor-data-container {
+    display: flex;
+    gap: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.data-btn {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.data-btn:hover {
+    border-color: #007BFF;
+    color: #007BFF;
+}
+
+.data-btn.active {
+    background-color: #007BFF;
+    color: #fff;
+    border-color: #007BFF;
+}
+
+.data-btn span {
+    display: block;
+}
+
+.data-dia-semana {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.data-dia-mes {
+    font-size: 1.2rem;
+}
+
+/* Sessões Agrupadas */
+#sessoes-agrupadas-container h3 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.sessao-grupo {
+    margin-bottom: 25px;
+}
+
+.sessao-grupo-titulo {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.horarios-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.horario-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.horario-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Mensagens e Erros */
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Ocultar containers de reserva e sessões agrupadas inicialmente se vazios */
+#reserva-container:empty,
+#sessoes-agrupadas-container:empty {
+    display: none;
+}

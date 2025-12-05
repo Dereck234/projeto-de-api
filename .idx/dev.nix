@@ -6,6 +6,7 @@
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.nodejs_20
+    pkgs.openssl
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -20,9 +21,9 @@
         npm-install = "npm ci --no-audit --prefer-offline --no-progress --timing";
       };
       # Runs when a workspace is (re)started
-      onStart= {
-        run-server = "npm run dev";
-      };
+      # onStart= {
+      #   run-server = "npm run dev";
+      # };
     };
   };
 }
